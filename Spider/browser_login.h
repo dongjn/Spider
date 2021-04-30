@@ -42,7 +42,7 @@ namespace seraphim {
 		CefRefPtr<CefBrowser>  mBrowser;
 	public:
 
-		BrowserLogin();
+		BrowserLogin(CefString url);
 		int GetId() {
 			if (mBrowser.get() == nullptr) {
 				return 0;

@@ -3,15 +3,23 @@
 #include <include/cef_browser.h>
 #include <include/cef_render_handler.h>
 #include <vector>
+#include "native_window.h"
 namespace seraphim {
 	class BrowserOffscreen : virtual public CefBaseRefCounted{
-	public:
+	private:
+
+		CefRefPtr<NativeWindow> mNativeWnd{ nullptr};
+		CefRefPtr<CefBrowser>  mBrowser{};
+		std::map<int, CefRefPtr<BrowserOffscreen>> mmChildren;
+		//std::vector<CefRefPtr<BrowserOffscreen>> mChildren;
+		int mUserID{ -1 };
+
 		bool  bWorking{ false };
+	public:
+
 		BrowserOffscreen(int user_id);
 		BrowserOffscreen(CefRefPtr<CefBrowser> browser,int user_id);
-		CefRefPtr<CefBrowser>  mBrowser{};
-		std::vector<CefRefPtr<BrowserOffscreen>> mChildren;
-		int mUserID{ -1 };
+		BrowserOffscreen(CefString url);
 		int GetId() {
 			if (mBrowser.get() == nullptr) {
 				return 0;
@@ -21,7 +29,9 @@ namespace seraphim {
 
 		CefRefPtr<BrowserOffscreen>  GetChildByUserID(int user_id);
 		bool BindCefBrowserByUserID(CefRefPtr<CefBrowser> browser, int user_id);
-
+		bool CreateChildByID(int parent_id, int user_id);
+		bool DeleteChildByUserID(int user_id);
+		int  GetUserIDByCefID(int cef_if);
 		virtual ~BrowserOffscreen();
 
 		IMPLEMENT_REFCOUNTING(BrowserOffscreen);

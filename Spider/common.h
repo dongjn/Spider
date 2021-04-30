@@ -15,8 +15,13 @@ using std::wstring;
 namespace seraphim {
 
 	static const wchar_t* TAG = L"<seraphim>";
-	static const  wchar_t* VISIT_DOM_CMD  = L"VISIT_DOM_CMD" ;
-	static const wchar_t* kUserIdKey = L"user_id";
+	static const wchar_t* kCmdVisitDom  = L"VISIT_DOM_CMD" ;
+	static const wchar_t* kMessageBrowserCreated= L"BR_MSG_BROWSER_CREATE";
+	static const wchar_t* kKeyUserID = L"KEY_USER_ID";
+	static const wchar_t* kKeyParentID = L"KEY_PAREMT_ID";
+	static const int kIndexUserID = 0;
+	static const int kIndexParentID = 1;
+	static int  kDataId{ 100 };
 	extern int kTopBrowserUserID;
 	extern int kChildBrowserUserID;
 };

@@ -4,10 +4,16 @@ namespace seraphim{
 
 	CefRefPtr<BrowserApp> BrowserApp::self_{nullptr};
 
-	CefRefPtr<BrowserApp> BrowserApp::Make(HINSTANCE hInstance)
+	CefRefPtr<BrowserApp> BrowserApp::Make(HINSTANCE hInstance, bool isScreen, bool neetLogin, const string& url, const string& loginurl)
 	{
 		if (self_.get() == nullptr) {
 			self_ = new BrowserApp(hInstance);
+			self_ -> bIsScreenOff = isScreen;
+			self_->bNeetLogin = neetLogin;
+			self_->rootUrl.FromString(url.c_str());
+			if (neetLogin)
+				self_->loginUrl.FromString(loginurl.c_str());
+
 		}
 		return self_;
 	}
@@ -25,7 +31,12 @@ namespace seraphim{
 
 	void BrowserApp::OnContextInitialized()
 	{
-		loginBrowser = new BrowserLogin;
+		if(bNeetLogin)
+			loginBrowser = new BrowserLogin(loginUrl);
+		else {
+			mClient->mTopBrowser = new BrowserOffscreen(rootUrl);
+		}
+	
 	}
 
 	
@@ -37,11 +48,13 @@ namespace seraphim{
 
 	void BrowserApp::Shutdown()
 	{
-
-		mClient->mBaseBrowser.empty();
-		mClient->mOffscennBrowser.empty();
 		CefShutdown();
+		self_ = nullptr;
+	}
 
+	BrowserApp::~BrowserApp()
+	{
+		
 	}
 
 };

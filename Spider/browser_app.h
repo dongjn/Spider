@@ -19,13 +19,18 @@ namespace seraphim{
 			assert(self_.get() != nullptr);
 			return self_;
 		}
-		static CefRefPtr<BrowserApp>  Make(HINSTANCE hInstance);
+		static CefRefPtr<BrowserApp> Make(HINSTANCE hInstance, bool isScreen, bool neetLogin, const string& url, const string& loginurl);
 	private:
 		HINSTANCE  mInstance;
 		BrowserApp(HINSTANCE  hInstance);
 		CefRefPtr<BrowserLogin> loginBrowser{nullptr};
 		CefRefPtr<BrowserClient>  mClient{nullptr};
+		CefString rootUrl;
+		CefString loginUrl;
+		bool bIsScreenOff;
+		bool bNeetLogin;
 	public:
+
 
 		virtual CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() override;
 
@@ -35,12 +40,15 @@ namespace seraphim{
 		CefRefPtr<BrowserClient>  GetScreenOffClient() {
 			return mClient;
 		}
-		
+		bool  IsScreenOff()const {
+			return false;
+		}
 		HINSTANCE  GetInstance() {
 			return mInstance;
 		}
 		void CreateBrowser();
 		void Shutdown();
+		~BrowserApp();
 	private:
 		IMPLEMENT_REFCOUNTING(BrowserApp);
 		DISALLOW_COPY_AND_ASSIGN(BrowserApp);

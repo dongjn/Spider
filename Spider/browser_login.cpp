@@ -7,7 +7,6 @@ namespace seraphim {
 
 
 
-	static int  kId{ 100 };
 	CefRefPtr<CefLoadHandler> BrowserLogin::GetLoadHandler()
 	{
 		return this;
@@ -44,11 +43,32 @@ namespace seraphim {
 
 	bool BrowserLogin::OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& target_url, const CefString& target_frame_name, WindowOpenDisposition target_disposition, bool user_gesture, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, CefRefPtr<CefClient>& client, CefBrowserSettings& settings, CefRefPtr<CefDictionaryValue>& extra_info, bool* no_javascript_access)
 	{
-		WLOG(10, TAG, L"OnBeforePopup");
-		auto user_id= CefValue::Create();
-		extra_info = CefDictionaryValue::Create();
-		user_id->SetInt(kId++);
-		extra_info->SetValue(kUserIdKey, user_id);
+		bool rst = true;
+		do {
+
+			auto app = BrowserApp::Get();
+			auto mc = app->GetScreenOffClient();
+			auto user_id = CefValue::Create();
+			
+			mc->GetWindowInfo(windowInfo);
+			mc->GetBrowsettting(settings);
+
+
+			
+			//mc->CreateOffsceenBrowser()
+
+			extra_info = CefDictionaryValue::Create();
+			user_id->SetInt(kDataId++);
+			extra_info->SetValue(kKeyUserID, user_id);
+			client = mc;
+
+
+
+			rst = false;
+		} while (false);
+
+		
+
 		return false;
 	}
 
@@ -70,13 +90,10 @@ namespace seraphim {
 	{
 	}
 
-	BrowserLogin::BrowserLogin()
+	BrowserLogin::BrowserLogin(CefString url)
 	{
-	
 		auto app = BrowserApp::Get();
-
 		mWindow = NativeWindow::Make(app->GetInstance());
-
 		mWindow->RegisteMessageProcess(WM_CLOSE, [&](WPARAM wParam, LPARAM lParam) ->LRESULT {
 			BrowserApp::Get()->Shutdown();
 			return FALSE;
@@ -93,10 +110,9 @@ namespace seraphim {
 		auto parent = mWindow->GetHandle();
 		GetClientRect(parent, &rect);
 		cwi.SetAsChild(parent, rect);
-		CefString home(L"http://t66y.com/thread0806.php?fid=7");
 		CefBrowserSettings  settings;
 		CefRefPtr<CefRequestContext> requestContext = CefRequestContext::GetGlobalContext();
-		mBrowser  = CefBrowserHost::CreateBrowserSync(cwi, this, home, settings, nullptr, requestContext);
+		mBrowser  = CefBrowserHost::CreateBrowserSync(cwi, this, url, settings, nullptr, requestContext);
 	}
 
 }

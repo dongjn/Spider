@@ -55,7 +55,7 @@ inline CefRefPtr<CefApp> ChooseAppType(CefRefPtr<CefCommandLine> commandLine,HIN
 	CefRefPtr<CefApp> rst{ nullptr };
 	do {
 		if (!commandLine->HasSwitch(kProcessType)) {
-			rst = BrowserApp::Make(hInstance);
+			rst = BrowserApp::Make(hInstance, false, false, "http://t66y.com/thread0806.php?fid=7", "");
 			break;
 		}
 		const string& szAppType = commandLine->GetSwitchValue(kProcessType);
@@ -98,6 +98,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	command_line->AppendSwitchWithValue("--device-scale-factor", "1.0");
 	auto bRst = CefInitialize(main_args, settings, app, sandbox_info);
     CefRunMessageLoop();
-
+	Sleep(1000);
     return 0;
 }

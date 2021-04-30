@@ -8,17 +8,20 @@ namespace seraphim {
 	void seraphim::RenderProcessHandler::OnBrowserCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDictionaryValue> extra_info)
 	{
 		int userID = -1;
-		auto frame = browser->GetMainFrame();
-		auto value = extra_info->GetValue(kUserIdKey);
-		if (value.get() != nullptr)
-			userID = value->GetInt();
-		WLOG(10, TAG, L"OnBrowserCreated userID = ",userID);
-		if (frame.get()) {
-			auto url = frame->GetURL();
-			auto szUrl = url.ToWString();
-			frame->VisitDOM(new DomVisitor());
-			WLOG(10, TAG, L"BrowserCreate url = ", szUrl);
-		}
+		do {
+			auto frame = browser->GetMainFrame();
+			auto vUserID = extra_info->GetValue(kKeyUserID);
+			if (vUserID.get() == nullptr)
+				break;
+			auto vParentID = extra_info->GetValue(kKeyParentID);
+			if (vParentID.get() == nullptr)
+				break;
+			auto msg = CefProcessMessage::Create(kMessageBrowserCreated);
+			msg->GetArgumentList()->SetValue(kIndexUserID, vUserID);
+			msg->GetArgumentList()->SetValue(kIndexParentID, vParentID);
+			browser->GetMainFrame()->SendProcessMessage(CefProcessId::PID_BROWSER, msg);
+
+		} while (0);
 	}
 
 
@@ -32,7 +35,7 @@ namespace seraphim {
 	{
 
 		auto cmd = message->GetName().ToWString();
-		if (cmd == VISIT_DOM_CMD) {
+		if (cmd == kCmdVisitDom) {
 			browser->GetMainFrame()->VisitDOM(new DomVisitor);
 
 		}

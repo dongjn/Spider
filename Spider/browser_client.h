@@ -9,8 +9,7 @@ namespace seraphim {
 		IMPLEMENT_REFCOUNTING(BrowserClient);
 		DISALLOW_COPY_AND_ASSIGN(BrowserClient);
 	private:
-		std::map<int, CefRefPtr<BrowserOffscreen>> mOffscennBrowser;
-		std::map<int, CefRefPtr<BrowserLogin>> mBaseBrowser;
+		CefRefPtr<BrowserOffscreen>  mTopBrowser;
 	public:
 		friend class BrowserApp;
 		BrowserClient() = default;
@@ -52,14 +51,19 @@ namespace seraphim {
 		virtual bool DoClose(CefRefPtr<CefBrowser> browser) override;
 
 
-		virtual void OnBeforeClose(CefRefPtr<CefBrowser> browser) override;
+		virtual bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) override;
 
 	public:
+
+		
 		void GetWindowInfo(CefWindowInfo& info);
 		void GetBrowsettting(CefBrowserSettings& settings);
 
-		void CreateOffscennBrowser(const CefString url);
-		void CreateBaseBrowser();
+		bool CreateChild(int parent_id,int user_id);
+
+		void BindBrowser(CefRefPtr<CefBrowser> browser, int user_id);
+
+		//bool CreateChild(const CefString url);
 
 	};
 };

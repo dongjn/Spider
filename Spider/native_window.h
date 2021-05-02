@@ -12,12 +12,12 @@ namespace seraphim {
 
 	class NativeWindow : public CefBaseRefCounted {
 	private:
-		
+
 		NativeWindow(HINSTANCE hInstance);
 	private:
 		HWND mWnd{ NULL };
 		HINSTANCE mInstance;
-		
+
 	public:
 		static CefRefPtr<NativeWindow> Make(HINSTANCE hInstance);
 		static LRESULT CALLBACK  WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -37,16 +37,15 @@ namespace seraphim {
 		void Close();
 		void Destory();
 	private:
-		std::multimap<DWORD,std::function<LRESULT(WPARAM, LPARAM)>> mmMsgProcess;
+		std::multimap<DWORD, std::function<LRESULT(WPARAM, LPARAM)>> mmMsgProcess;
 		std::mutex  mLookMutex{};
 		void InitMessageProcess();
 		BOOL InitInstance(HINSTANCE hInstance, int nCmdShow);
 		LRESULT  OnCreate(WPARAM wParam, LPARAM lParam);
 		LRESULT  OnSize(WPARAM wParam, LPARAM lParam);
 		LRESULT  OnDestory(WPARAM wParam, LPARAM lParam);
-		
+
 		IMPLEMENT_REFCOUNTING(NativeWindow);
 		DISALLOW_COPY_AND_ASSIGN(NativeWindow);
 	};
-
 };

@@ -7,11 +7,9 @@
 #include "browser_client.h"
 #include "native_window.h"
 #include "browser_login.h"
-namespace seraphim{
-	class BrowserApp :  virtual public CefApp  , virtual public CefBrowserProcessHandler
+namespace seraphim {
+	class BrowserApp : virtual public CefApp, virtual public CefBrowserProcessHandler
 	{
-
-
 	private:
 		static CefRefPtr<BrowserApp>  self_;
 	public:
@@ -23,14 +21,13 @@ namespace seraphim{
 	private:
 		HINSTANCE  mInstance;
 		BrowserApp(HINSTANCE  hInstance);
-		CefRefPtr<BrowserLogin> loginBrowser{nullptr};
-		CefRefPtr<BrowserClient>  mClient{nullptr};
+		CefRefPtr<BrowserLogin> loginBrowser{ nullptr };
+		CefRefPtr<BrowserClient>  mClient{ nullptr };
 		CefString rootUrl;
 		CefString loginUrl;
 		bool bIsScreenOff;
 		bool bNeetLogin;
 	public:
-
 
 		virtual CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() override;
 
@@ -52,9 +49,5 @@ namespace seraphim{
 	private:
 		IMPLEMENT_REFCOUNTING(BrowserApp);
 		DISALLOW_COPY_AND_ASSIGN(BrowserApp);
-
 	};
-
-
-
 };

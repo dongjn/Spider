@@ -4,9 +4,6 @@
 #include "log.h"
 #include "cef_utility.h"
 namespace seraphim {
-
-
-
 	CefRefPtr<CefLoadHandler> BrowserLogin::GetLoadHandler()
 	{
 		return this;
@@ -14,14 +11,14 @@ namespace seraphim {
 
 	void BrowserLogin::OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward)
 	{
-		CefString url =browser->GetMainFrame()->GetURL();
+		CefString url = browser->GetMainFrame()->GetURL();
 		//WLOG(10, TAG, L"OnLoadingStateChange  browser ",(void*)browser,L"|",url.ToWString());
 	}
 
 	void BrowserLogin::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, TransitionType transition_type)
 	{
 		CefString url = browser->GetMainFrame()->GetURL();
-		WLOG(10, TAG, L"OnLoadStart  browser ", (void*)browser,L"|id=",browser->GetIdentifier() ,L"|url=", url.ToWString());
+		WLOG(10, TAG, L"OnLoadStart  browser ", (void*)browser, L"|id=", browser->GetIdentifier(), L"|url=", url.ToWString());
 	}
 
 	void BrowserLogin::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
@@ -45,16 +42,13 @@ namespace seraphim {
 	{
 		bool rst = true;
 		do {
-
 			auto app = BrowserApp::Get();
 			auto mc = app->GetScreenOffClient();
 			auto user_id = CefValue::Create();
-			
+
 			mc->GetWindowInfo(windowInfo);
 			mc->GetBrowsettting(settings);
 
-
-			
 			//mc->CreateOffsceenBrowser()
 
 			extra_info = CefDictionaryValue::Create();
@@ -62,22 +56,16 @@ namespace seraphim {
 			extra_info->SetValue(kKeyUserID, user_id);
 			client = mc;
 
-
-
 			rst = false;
 		} while (false);
-
-		
 
 		return false;
 	}
 
 	void BrowserLogin::OnAfterCreated(CefRefPtr<CefBrowser> browser)
 	{
-		
-
 		WLOG(10, TAG, L"OnAfterCreated");
-		return ;
+		return;
 	}
 
 	bool BrowserLogin::DoClose(CefRefPtr<CefBrowser> browser)
@@ -102,7 +90,7 @@ namespace seraphim {
 			auto width = LOWORD(lParam);
 			auto height = LOWORD(lParam);
 			auto h = mBrowser->GetHost()->GetWindowHandle();
-			MoveWindow(h, 0, 0, width, height,TRUE);
+			MoveWindow(h, 0, 0, width, height, TRUE);
 			return FALSE;
 			});
 		CefWindowInfo cwi;
@@ -112,9 +100,6 @@ namespace seraphim {
 		cwi.SetAsChild(parent, rect);
 		CefBrowserSettings  settings;
 		CefRefPtr<CefRequestContext> requestContext = CefRequestContext::GetGlobalContext();
-		mBrowser  = CefBrowserHost::CreateBrowserSync(cwi, this, url, settings, nullptr, requestContext);
+		mBrowser = CefBrowserHost::CreateBrowserSync(cwi, this, url, settings, nullptr, requestContext);
 	}
-
 }
-
-

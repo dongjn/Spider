@@ -13,10 +13,9 @@ using std::vector;
 using std::string;
 using std::wstring;
 namespace seraphim {
-
 	static const wchar_t* TAG = L"<seraphim>";
-	static const wchar_t* kCmdVisitDom  = L"VISIT_DOM_CMD" ;
-	static const wchar_t* kMessageBrowserCreated= L"BR_MSG_BROWSER_CREATE";
+	static const wchar_t* kCmdVisitDom = L"VISIT_DOM_CMD";
+	static const wchar_t* kMessageBrowserCreated = L"BR_MSG_BROWSER_CREATE";
 	static const wchar_t* kKeyUserID = L"KEY_USER_ID";
 	static const wchar_t* kKeyParentID = L"KEY_PAREMT_ID";
 	static const int kIndexUserID = 0;

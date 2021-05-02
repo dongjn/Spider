@@ -1,14 +1,13 @@
 #include "browser_app.h"
 #include "browser_client.h"
-namespace seraphim{
-
-	CefRefPtr<BrowserApp> BrowserApp::self_{nullptr};
+namespace seraphim {
+	CefRefPtr<BrowserApp> BrowserApp::self_{ nullptr };
 
 	CefRefPtr<BrowserApp> BrowserApp::Make(HINSTANCE hInstance, bool isScreen, bool neetLogin, const string& url, const string& loginurl)
 	{
 		if (self_.get() == nullptr) {
 			self_ = new BrowserApp(hInstance);
-			self_ -> bIsScreenOff = isScreen;
+			self_->bIsScreenOff = isScreen;
 			self_->bNeetLogin = neetLogin;
 			self_->rootUrl.FromString(url.c_str());
 			if (neetLogin)
@@ -17,7 +16,7 @@ namespace seraphim{
 		return self_;
 	}
 
-	BrowserApp::BrowserApp(HINSTANCE hInstance):mInstance(hInstance)
+	BrowserApp::BrowserApp(HINSTANCE hInstance) :mInstance(hInstance)
 	{
 		mClient = new BrowserClient;
 	}
@@ -27,23 +26,18 @@ namespace seraphim{
 		return this;
 	}
 
-
 	void BrowserApp::OnContextInitialized()
 	{
-		if(bNeetLogin)
+		if (bNeetLogin)
 			loginBrowser = new BrowserLogin(loginUrl);
 		else {
 			mClient->mTopBrowser = new BrowserOffscreen(rootUrl);
 		}
-	
 	}
 
-	
 	void BrowserApp::CreateBrowser()
 	{
-		
 	}
-
 
 	void BrowserApp::Shutdown()
 	{
@@ -53,8 +47,5 @@ namespace seraphim{
 
 	BrowserApp::~BrowserApp()
 	{
-		
 	}
-
 };
-

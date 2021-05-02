@@ -3,13 +3,12 @@
 #include  "browser_login.h"
 #include "log.h"
 #include "common.h"
+#include  "resource_mather.h"
+#include  "file_store_facotr.h"
 namespace seraphim {
-
-
-
 	BrowserClient::BrowserClient()
 	{
-		mResourceHandelr = new RequestHandler();
+		mResourceHandelr = new ResponsetHandler();
 	}
 
 	void BrowserClient::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect)
@@ -24,22 +23,18 @@ namespace seraphim {
 	{
 	}
 
-
-
-
 	void BrowserClient::OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward)
 	{
 		auto url = browser->GetMainFrame()->GetURL();
 		auto szUrl = url.ToWString();
-		WLOG(10, TAG, L"OnLoadingStateChange url",szUrl);
+		WLOG(10, TAG, L"OnLoadingStateChange url", szUrl);
 	}
 
 	void BrowserClient::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, TransitionType transition_type)
 	{
 		auto url = browser->GetMainFrame()->GetURL();
 		auto szUrl = url.ToWString();
-		WLOG(10, TAG, L"OnLoadStart  url", szUrl,L"browser id =",browser->GetIdentifier(),L"|frame id = ",browser->GetMainFrame()->GetIdentifier());
-
+		WLOG(10, TAG, L"OnLoadStart  url", szUrl, L"browser id =", browser->GetIdentifier(), L"|frame id = ", browser->GetMainFrame()->GetIdentifier());
 	}
 
 	void BrowserClient::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
@@ -49,7 +44,6 @@ namespace seraphim {
 		auto msg = CefProcessMessage::Create(kCmdVisitDom);
 		browser->GetMainFrame()->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
 		WLOG(10, TAG, L"OnLoadEnd  url", szUrl);
-
 	}
 
 	void BrowserClient::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl)
@@ -57,14 +51,10 @@ namespace seraphim {
 		auto url = browser->GetMainFrame()->GetURL();
 		auto szUrl = url.ToWString();
 		WLOG(10, TAG, L"OnLoadError  url", szUrl);
-
 	}
-
-
 
 	bool BrowserClient::OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& target_url, const CefString& target_frame_name, WindowOpenDisposition target_disposition, bool user_gesture, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, CefRefPtr<CefClient>& client, CefBrowserSettings& settings, CefRefPtr<CefDictionaryValue>& extra_info, bool* no_javascript_access)
 	{
-
 		auto bid = browser->GetIdentifier();
 		int parentID = 0;
 		if (bid != 1)
@@ -78,7 +68,13 @@ namespace seraphim {
 		vParentID->SetInt(parentID);
 		extra_info->SetValue(kKeyUserID, vUserID);
 		extra_info->SetValue(kKeyParentID, vParentID);
-		mTopBrowser->CreateChildByID(parentID, userId);
+		auto b = mTopBrowser->CreateChildByID(parentID, userId);
+		//Debug
+		auto matcher = new ResourceTypeMatcher(CefRequest::ResourceType::RT_IMAGE);
+		auto factor = new FileStoreFactor(L"", "base");
+		b->SetFilterFactor(factor);
+		b->SetRequestMatcher(matcher);
+		
 		return false;
 	}
 
@@ -87,27 +83,24 @@ namespace seraphim {
 	}
 
 	struct QuitTask : CefTask {
-
 		IMPLEMENT_REFCOUNTING(QuitTask);
 		DISALLOW_COPY_AND_ASSIGN(QuitTask);
 	public:
 		CefRefPtr<BrowserOffscreen> browser;
 
 		QuitTask(CefRefPtr<BrowserOffscreen> b) :browser(b) {
-
 		}
 		virtual void Execute() override
 		{
 			browser = nullptr;
 			BrowserApp::Get()->Shutdown();
 		}
-
 	};
 
 	//************************************
 	// Method:    DoClose
 	// FullName:  seraphim::BrowserClient::DoClose
-	// Access:    virtual public 
+	// Access:    virtual public
 	// Returns:   bool   false 表示已经处理过
 	// Qualifier:
 	// Parameter: CefRefPtr<CefBrowser> browser
@@ -127,10 +120,10 @@ namespace seraphim {
 			auto user_id = mTopBrowser->GetUserIDByCefID(id);
 			if (user_id <= 0)
 				break;
-			bool bRst  = mTopBrowser->DeleteChildByUserID(user_id);
+			bool bRst = mTopBrowser->DeleteChildByUserID(user_id);
 			assert(bRst);
 		} while (false);
-	
+
 		return false;
 	}
 
@@ -146,7 +139,6 @@ namespace seraphim {
 		return false;
 	}
 
-
 	void BrowserClient::GetWindowInfo(CefWindowInfo& info)
 	{
 		info.SetAsWindowless(NULL);
@@ -155,10 +147,7 @@ namespace seraphim {
 
 	void BrowserClient::GetBrowsettting(CefBrowserSettings& settings)
 	{
-
 	}
-
-
 
 	bool  BrowserClient::CreateChild(int parent_id, int user_id)
 	{
@@ -171,10 +160,20 @@ namespace seraphim {
 			assert(false);
 		}
 		else {
-			mTopBrowser->BindCefBrowserByUserID(browser,user_id);
+			mTopBrowser->BindCefBrowserByUserID(browser, user_id);
 		}
 	}
 
+	CefRefPtr<CefResponseFilter> BrowserClient::GetResponseFilter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response)
+	{
+		CefRefPtr<CefResponseFilter> filter{ nullptr };
+		do {
+			auto cid = browser->GetIdentifier();
+			if (cid == mTopBrowser->GetId()) break;
+			auto mb = mTopBrowser->GetChildByCefID(cid);
+			if (mb.get() == nullptr) break;
+			return mb->GetResponseFilter(frame, request, response);
+		} while (false);
+		return filter;
+	}
 };
-
-

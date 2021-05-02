@@ -6,14 +6,11 @@ namespace seraphim {
 		BaseVisitor() = default;
 		virtual void Visit(CefRefPtr<CefDOMDocument> document) override;
 
-
 		void ErgodicNode(CefRefPtr<CefDOMNode> node);
 
 		~BaseVisitor();
 
 		IMPLEMENT_REFCOUNTING(BaseVisitor);
 		DISALLOW_COPY_AND_ASSIGN(BaseVisitor);
-
 	};
-
 }

@@ -166,8 +166,12 @@ exit /b %1
     <ClInclude Include="browser_client.h" />
     <ClInclude Include="cef_utility.h" />
     <ClInclude Include="common.h" />
+    <ClInclude Include="file_store_facotr.h" />
     <ClInclude Include="IExtractor.h" />
-    <ClInclude Include="matcher_i.h" />
+    <ClInclude Include="matcher_box.h" />
+    <ClInclude Include="request_matcher.h" />
+    <ClInclude Include="resource_mather.h" />
+    <ClInclude Include="resource_store_factor_i.h" />
     <ClInclude Include="request_handler.h" />
     <ClInclude Include="visitor_base.h" />
     <ClInclude Include="framework.h" />
@@ -177,7 +181,7 @@ exit /b %1
     <ClInclude Include="Resource.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Tools.hpp" />
+    <ClInclude Include="common_tools.hpp" />
     <ClInclude Include="v8_handler.h" />
     <ClInclude Include="browser_offscreen.h" />
   </ItemGroup>
@@ -187,8 +191,9 @@ exit /b %1
     <ClCompile Include="browser_client.cpp" />
     <ClCompile Include="browser_offscreen.cpp" />
     <ClCompile Include="common.cpp" />
+    <ClCompile Include="file_store_facotr.cpp" />
     <ClCompile Include="IExtractor.cpp" />
-    <ClCompile Include="matcher_i.cpp" />
+    <ClCompile Include="matcher_box.cpp" />
     <ClCompile Include="request_handler.cpp" />
     <ClCompile Include="visitor_base.cpp" />
     <ClCompile Include="native_window.cpp" />

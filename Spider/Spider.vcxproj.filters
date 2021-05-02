@@ -36,7 +36,7 @@
     <ClInclude Include="common.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Tools.hpp">
+    <ClInclude Include="common_tools.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="log.h">
@@ -66,13 +66,25 @@
     <ClInclude Include="browser_base.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="matcher_i.h">
+    <ClInclude Include="matcher_box.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="IExtractor.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="request_handler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="resource_store_factor_i.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="resource_mather.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="request_matcher.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="file_store_facotr.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -107,13 +119,16 @@
     <ClCompile Include="browser_offscreen.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="matcher_i.cpp">
+    <ClCompile Include="matcher_box.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="IExtractor.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="request_handler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="file_store_facotr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

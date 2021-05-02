@@ -4,10 +4,9 @@
 #include <vector>
 #include<bitset>
 
-
 using std::vector;
 using std::bitset;
-namespace seraphim{
+namespace seraphim {
 	class V8Handler : public CefV8Handler {
 		IMPLEMENT_REFCOUNTING(V8Handler);
 		DISALLOW_COPY_AND_ASSIGN(V8Handler);
@@ -20,6 +19,5 @@ namespace seraphim{
 
 		bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) override;
 	private:
-
 	};
 };

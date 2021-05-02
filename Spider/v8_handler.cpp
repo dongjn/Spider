@@ -2,7 +2,6 @@
 #include "log.h"
 
 namespace seraphim {
-
 	static const CefString  gGameIdKeyName = L"game_id";
 	static const CefString  gAccountIdKeyName = L"account_id";
 	static const CefString gPlatformName = L"platform_name";
@@ -19,12 +18,9 @@ namespace seraphim {
 	static const CefString gArchiveCheckKeyName = L"archive_check";
 	static const CefString gArchivePathKeyName = L"archive_path";
 
-
 	bool V8Handler::Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
 	{
 		const std::wstring szName = name.ToWString();
 		return true;
 	}
 };
-
-

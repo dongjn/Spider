@@ -3,8 +3,6 @@
 #include "common.h"
 #include "visitor_base.h"
 namespace seraphim {
-
-
 	void seraphim::RenderProcessHandler::OnBrowserCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDictionaryValue> extra_info)
 	{
 		int userID = -1;
@@ -20,20 +18,16 @@ namespace seraphim {
 			msg->GetArgumentList()->SetValue(kIndexUserID, vUserID);
 			msg->GetArgumentList()->SetValue(kIndexParentID, vParentID);
 			browser->GetMainFrame()->SendProcessMessage(CefProcessId::PID_BROWSER, msg);
-
 		} while (0);
 	}
-
 
 	void seraphim::RenderProcessHandler::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
 	{
 		WLOG(10, TAG, L"OnBrowserDestroyed");
 	}
 
-	
 	bool RenderProcessHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
 	{
-
 		auto cmd = message->GetName().ToWString();
 		if (cmd == kCmdVisitDom) {
 			auto mainFrame = browser->GetMainFrame();
@@ -45,5 +39,4 @@ namespace seraphim {
 		}
 		return TRUE;
 	}
-
 };

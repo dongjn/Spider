@@ -36,7 +36,7 @@ constexpr int ERROR_LEVEL = ANDROID_LOG_ERROR;
 constexpr int INFO_LEVEL = 0;
 constexpr int DEBUG_LEVEL = 10;
 constexpr int ERROR_LEVEL = 20;
-constexpr int  default_level =10;
+constexpr int  default_level = 10;
 
 extern void mem_cp_mc(void* dst, const void* src, size_t bytes, int coCore);
 
@@ -179,8 +179,6 @@ namespace seraphim {
 #endif
 		return;
 	}
-
-
 
 	template<typename T, typename ...Args>
 	inline void _SLog(sstream& stream, int level, const char* TAG, T t, Args ...args) {

@@ -48,7 +48,7 @@
     <ClInclude Include="v8_handler.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="dom_visitor.h">
+    <ClInclude Include="visitor_base.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="render_handler.h">
@@ -64,6 +64,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="browser_base.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="matcher_i.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="IExtractor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="request_handler.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -83,7 +92,7 @@
     <ClCompile Include="v8_handler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="dom_visitor.cpp">
+    <ClCompile Include="visitor_base.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="render_handler.cpp">
@@ -96,6 +105,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="browser_offscreen.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="matcher_i.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="IExtractor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="request_handler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

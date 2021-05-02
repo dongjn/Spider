@@ -58,5 +58,8 @@ namespace seraphim {
 		return os;
 	}
 	//public typedef enum { DOM_NODE_TYPE_UNSUPPORTED = 0, DOM_NODE_TYPE_ELEMENT, DOM_NODE_TYPE_ATTRIBUTE, DOM_NODE_TYPE_TEXT, DOM_NODE_TYPE_CDATA_SECTION, DOM_NODE_TYPE_PROCESSING_INSTRUCTIONS, DOM_NODE_TYPE_COMMENT, DOM_NODE_TYPE_DOCUMENT, DOM_NODE_TYPE_DOCUMENT_TYPE, DOM_NODE_TYPE_DOCUMENT_FRAGMENT, } cef_dom_node_type_t;
-
+	inline wstringstream& operator<<(wstringstream& os, const CefRect bound) {
+		os << L"<" << bound.x << L"," << bound.y << L"," << bound.width << L"," << bound.height << L">";
+		return os;
+	}
 }

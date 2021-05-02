@@ -5,20 +5,18 @@
 #include <vector>
 #include "native_window.h"
 namespace seraphim {
-	class BrowserOffscreen : virtual public CefBaseRefCounted{
+	class BrowserOffscreen : virtual public CefBaseRefCounted {
 	private:
 
-		CefRefPtr<NativeWindow> mNativeWnd{ nullptr};
+		CefRefPtr<NativeWindow> mNativeWnd{ nullptr };
 		CefRefPtr<CefBrowser>  mBrowser{};
 		std::map<int, CefRefPtr<BrowserOffscreen>> mmChildren;
-		//std::vector<CefRefPtr<BrowserOffscreen>> mChildren;
 		int mUserID{ -1 };
-
 		bool  bWorking{ false };
 	public:
 
 		BrowserOffscreen(int user_id);
-		BrowserOffscreen(CefRefPtr<CefBrowser> browser,int user_id);
+		BrowserOffscreen(CefRefPtr<CefBrowser> browser, int user_id);
 		BrowserOffscreen(CefString url);
 		int GetId() {
 			if (mBrowser.get() == nullptr) {

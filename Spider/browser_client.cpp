@@ -5,9 +5,11 @@
 #include "common.h"
 namespace seraphim {
 
-	CefRefPtr<CefRenderHandler> BrowserClient::GetRenderHandler()
+
+
+	BrowserClient::BrowserClient()
 	{
-		return this;
+		mResourceHandelr = new RequestHandler();
 	}
 
 	void BrowserClient::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect)
@@ -22,10 +24,7 @@ namespace seraphim {
 	{
 	}
 
-	CefRefPtr<CefLoadHandler> BrowserClient::GetLoadHandler()
-	{
-		return this;
-	}
+
 
 
 	void BrowserClient::OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward)
@@ -61,10 +60,7 @@ namespace seraphim {
 
 	}
 
-	CefRefPtr<CefLifeSpanHandler> BrowserClient::GetLifeSpanHandler()
-	{
-		return this;
-	}
+
 
 	bool BrowserClient::OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& target_url, const CefString& target_frame_name, WindowOpenDisposition target_disposition, bool user_gesture, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, CefRefPtr<CefClient>& client, CefBrowserSettings& settings, CefRefPtr<CefDictionaryValue>& extra_info, bool* no_javascript_access)
 	{
@@ -149,6 +145,7 @@ namespace seraphim {
 		}
 		return false;
 	}
+
 
 	void BrowserClient::GetWindowInfo(CefWindowInfo& info)
 	{

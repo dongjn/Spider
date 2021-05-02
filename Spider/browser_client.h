@@ -3,6 +3,7 @@
 #include <include/cef_render_handler.h>
 #include "browser_offscreen.h"
 #include "browser_login.h"
+#include "request_handler.h"
 namespace seraphim {
 	class BrowserApp;
 	class BrowserClient : public  virtual CefClient,CefRenderHandler,CefLifeSpanHandler,CefLoadHandler{
@@ -10,10 +11,11 @@ namespace seraphim {
 		DISALLOW_COPY_AND_ASSIGN(BrowserClient);
 	private:
 		CefRefPtr<BrowserOffscreen>  mTopBrowser;
+		CefRefPtr<RequestHandler>  mResourceHandelr;
 	public:
 		friend class BrowserApp;
-		BrowserClient() = default;
-		virtual CefRefPtr<CefRenderHandler> GetRenderHandler() override;
+		BrowserClient();
+		virtual CefRefPtr<CefRenderHandler> GetRenderHandler() override { return this; };
 		
 		virtual void GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) override;
 
@@ -24,13 +26,10 @@ namespace seraphim {
 		virtual void OnAfterCreated(CefRefPtr<CefBrowser> browser) override;
 
 
-		virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() override;
+		virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() override { return this; };
 
 
-		virtual CefRefPtr<CefLoadHandler> GetLoadHandler() override;
-
-
-	
+		virtual CefRefPtr<CefLoadHandler> GetLoadHandler() override { return this; };
 
 
 		virtual void OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward) override;
@@ -53,6 +52,9 @@ namespace seraphim {
 
 		virtual bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) override;
 
+
+		virtual CefRefPtr<CefRequestHandler> GetRequestHandler() override { return mResourceHandelr; };
+
 	public:
 
 		
@@ -62,8 +64,6 @@ namespace seraphim {
 		bool CreateChild(int parent_id,int user_id);
 
 		void BindBrowser(CefRefPtr<CefBrowser> browser, int user_id);
-
-		//bool CreateChild(const CefString url);
 
 	};
 };

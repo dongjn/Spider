@@ -1,18 +1,18 @@
 #pragma once
 #include <include/cef_dom.h>
 namespace seraphim {
-	class DomVisitor : public CefDOMVisitor {
+	class BaseVisitor : public CefDOMVisitor {
 	public:
-		DomVisitor() = default;
+		BaseVisitor() = default;
 		virtual void Visit(CefRefPtr<CefDOMDocument> document) override;
 
 
 		void ErgodicNode(CefRefPtr<CefDOMNode> node);
 
-		~DomVisitor();
+		~BaseVisitor();
 
-		IMPLEMENT_REFCOUNTING(DomVisitor);
-		DISALLOW_COPY_AND_ASSIGN(DomVisitor);
+		IMPLEMENT_REFCOUNTING(BaseVisitor);
+		DISALLOW_COPY_AND_ASSIGN(BaseVisitor);
 
 	};
 

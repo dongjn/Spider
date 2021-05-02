@@ -166,7 +166,10 @@ exit /b %1
     <ClInclude Include="browser_client.h" />
     <ClInclude Include="cef_utility.h" />
     <ClInclude Include="common.h" />
-    <ClInclude Include="dom_visitor.h" />
+    <ClInclude Include="IExtractor.h" />
+    <ClInclude Include="matcher_i.h" />
+    <ClInclude Include="request_handler.h" />
+    <ClInclude Include="visitor_base.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="native_window.h" />
@@ -184,7 +187,10 @@ exit /b %1
     <ClCompile Include="browser_client.cpp" />
     <ClCompile Include="browser_offscreen.cpp" />
     <ClCompile Include="common.cpp" />
-    <ClCompile Include="dom_visitor.cpp" />
+    <ClCompile Include="IExtractor.cpp" />
+    <ClCompile Include="matcher_i.cpp" />
+    <ClCompile Include="request_handler.cpp" />
+    <ClCompile Include="visitor_base.cpp" />
     <ClCompile Include="native_window.cpp" />
     <ClCompile Include="render_handler.cpp" />
     <ClCompile Include="main.cpp" />

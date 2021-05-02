@@ -13,7 +13,6 @@ namespace seraphim{
 			self_->rootUrl.FromString(url.c_str());
 			if (neetLogin)
 				self_->loginUrl.FromString(loginurl.c_str());
-
 		}
 		return self_;
 	}

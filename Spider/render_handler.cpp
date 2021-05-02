@@ -1,7 +1,7 @@
 #include "render_handler.h"
 #include "log.h"
 #include "common.h"
-#include "dom_visitor.h"
+#include "visitor_base.h"
 namespace seraphim {
 
 
@@ -36,8 +36,12 @@ namespace seraphim {
 
 		auto cmd = message->GetName().ToWString();
 		if (cmd == kCmdVisitDom) {
-			browser->GetMainFrame()->VisitDOM(new DomVisitor);
-
+			auto mainFrame = browser->GetMainFrame();
+			if (mainFrame.get() == nullptr) {
+				WLOG(10, TAG, L"MainFrame IS NULL!");
+				return TRUE;
+			}
+			browser->GetMainFrame()->VisitDOM(new BaseVisitor);
 		}
 		return TRUE;
 	}

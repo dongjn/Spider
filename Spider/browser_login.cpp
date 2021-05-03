@@ -2,7 +2,7 @@
 #include "browser_app.h"
 #include "common.h"
 #include "log.h"
-#include "cef_utility.h"
+#include "cef_log_utility.h"
 namespace seraphim {
 	CefRefPtr<CefLoadHandler> BrowserLogin::GetLoadHandler()
 	{

@@ -3,7 +3,7 @@
 #include <algorithm>
 #include "common.h"
 #include "log.h"
-#include "cef_utility.h"
+#include "cef_log_utility.h"
 namespace seraphim {
 	BrowserOffscreen::BrowserOffscreen(CefRefPtr<CefBrowser> browser, int user_id) :mBrowser(browser), mUserID(user_id)
 	{

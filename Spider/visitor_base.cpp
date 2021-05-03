@@ -1,7 +1,7 @@
 #include "visitor_base.h"
 
 #include "common.h"
-#include "cef_utility.h"
+#include "cef_log_utility.h"
 #include "log.h"
 #include <sstream>
 namespace seraphim {

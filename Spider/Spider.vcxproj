@@ -164,6 +164,7 @@ exit /b %1
     <ClInclude Include="browser_login.h" />
     <ClInclude Include="browser_app.h" />
     <ClInclude Include="browser_client.h" />
+    <ClInclude Include="cef_log_utility.h" />
     <ClInclude Include="cef_utility.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="file_store_facotr.h" />

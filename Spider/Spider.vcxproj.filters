@@ -87,6 +87,9 @@
     <ClInclude Include="file_store_facotr.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="cef_log_utility.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

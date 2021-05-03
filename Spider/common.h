@@ -11,6 +11,7 @@ using std::shared_ptr;
 using std::unique_ptr;
 using std::vector;
 using std::string;
+using std::string_view;
 using std::wstring;
 namespace seraphim {
 	static const wchar_t* TAG = L"<seraphim>";

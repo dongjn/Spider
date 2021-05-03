@@ -23,7 +23,6 @@ using std::string;
 #define HELPER_U2W(x) Tools::u2w(x)
 #define HELPER_A2U(x) Tools::a2u(x)
 #define HELPER_U2A(x) Tools::u2a(x)
-using std::string;
 namespace seraphim {
 	class Tools
 	{
@@ -100,12 +99,12 @@ namespace seraphim {
 					break;
 				}
 				string strDestPath = dstFile;
-				createFolderForPath(strDestPath);
+				CreateFolderForPath(strDestPath);
 
 				string strParam = "a \"-o" + strDestPath + "\" ";
 				if (Tools::IsFolder(strPath))
 				{
-					string strFolder = Tools::replace_all(strPath, "/", "\\");
+					string strFolder = Tools::ReplaceAll(strPath, "/", "\\");
 					if (strFolder.at(strFolder.length() - 1) != '\\')
 					{
 						strFolder.append("\\*");
@@ -158,12 +157,12 @@ namespace seraphim {
 					break;
 				}
 				string strDestPath = dstFile;
-				createFolderForPath(strDestPath);
+				CreateFolderForPath(strDestPath);
 
 				string strParam = "e -y  \"-o" + strDestPath + "\" ";
 				if (Tools::IsFolder(strPath))
 				{
-					string strFolder = Tools::replace_all(strPath, "/", "\\");
+					string strFolder = Tools::ReplaceAll(strPath, "/", "\\");
 					if (strFolder.at(strFolder.length() - 1) != '\\')
 					{
 						strFolder.append("\\*");
@@ -228,7 +227,7 @@ namespace seraphim {
 
 				file_name = file_path.substr(itr_second + 1, file_path.length() - itr_second);
 				file_path = file_path.substr(0, itr_second + 1);
-				createFolderForPath(file_path);
+				CreateFolderForPath(file_path);
 				auto full_path = file_path + file_name;
 				DWORD flag = GENERIC_READ;
 				DWORD  cd = OPEN_ALWAYS;// CreationDisposition
@@ -277,7 +276,7 @@ namespace seraphim {
 
 				file_name = file_path.substr(itr_second + 1, file_path.length() - itr_second);
 				file_path = file_path.substr(0, itr_second + 1);
-				createFolderForPath(file_path);
+				CreateFolderForPath(file_path);
 				auto full_path = file_path + file_name;
 				DWORD flag = GENERIC_READ;
 				DWORD  cd = OPEN_ALWAYS;// CreationDisposition
@@ -291,6 +290,22 @@ namespace seraphim {
 				}
 			} while (0);
 			return h;
+		}
+
+		static string URLToPath(const string& szUrl) {
+			string rst("");
+			//do {
+			//	headcode::url::URL  url(szUrl);
+			//	if (url.GetError() != headcode::url::ParseError::kNoError) {
+			//		break;
+			//	}
+			//	auto vSegments = url.GetSegments();
+			//	auto count = vSegments.size();
+			//	for (int i = 0; i < count - 1; i++) {
+			//		//rst += vSegments[i];
+			//	}
+			//} while (0);
+			return rst;
 		}
 
 		static bool IsFolder(const std::string& targetFile) {
@@ -307,7 +322,7 @@ namespace seraphim {
 			return true;
 		};
 
-		static std::wstring& replace_all(std::wstring& str, const std::wstring& old_value, const std::wstring& new_value)
+		static std::wstring& ReplaceAll(std::wstring& str, const std::wstring& old_value, const std::wstring& new_value)
 		{
 			while (true) {
 				std::wstring::size_type pos(0);
@@ -317,7 +332,7 @@ namespace seraphim {
 			}
 			return str;
 		}
-		static std::string& replace_all(std::string& str, const std::string& old_value, const std::string& new_value)
+		static std::string& ReplaceAll(std::string& str, const std::string& old_value, const std::string& new_value)
 		{
 			while (true) {
 				std::string::size_type pos(0);
@@ -328,8 +343,8 @@ namespace seraphim {
 			return str;
 		}
 
-		static void createFolderForPath(std::wstring strPath) {
-			replace_all(strPath, L"/", L"\\");
+		static void CreateFolderForPath(std::wstring strPath) {
+			ReplaceAll(strPath, L"/", L"\\");
 
 			int iPos = strPath.find_last_of(L'\\');
 			std::wstring strFolder;
@@ -338,14 +353,14 @@ namespace seraphim {
 				strFolder = strPath.substr(0, iPos);
 				if (!PathIsDirectoryW(strFolder.c_str()))
 				{
-					createFolderForPath(strFolder);
+					CreateFolderForPath(strFolder);
 					::CreateDirectoryW(strFolder.c_str(), NULL);
 				}
 			}
 		}
 
-		static void createFolderForPath(std::string strPath) {
-			replace_all(strPath, "/", "\\");
+		static void CreateFolderForPath(std::string strPath) {
+			ReplaceAll(strPath, "/", "\\");
 
 			int iPos = strPath.find_last_of('\\');
 			std::string strFolder;
@@ -354,7 +369,7 @@ namespace seraphim {
 				strFolder = strPath.substr(0, iPos);
 				if (!PathIsDirectoryA(strFolder.c_str()))
 				{
-					createFolderForPath(strFolder);
+					CreateFolderForPath(strFolder);
 					::CreateDirectoryA(strFolder.c_str(), NULL);
 				}
 			}
@@ -379,7 +394,7 @@ namespace seraphim {
 
 		static string GetTimeFormFileName(const string& fileName, const string& pref) {
 			auto szName = fileName;
-			replace_all(szName, "/", "\\");
+			ReplaceAll(szName, "/", "\\");
 			int itr = szName.rfind('\\');
 			//itr = itr < 0 ? 0 : itr;
 			int cn = szName.length() - itr - 1;
@@ -482,7 +497,7 @@ namespace seraphim {
 
 		static std::string GetBasePath(const string& exePath) {
 			string  fullPath(exePath);
-			replace_all(fullPath, "\\", "/");
+			ReplaceAll(fullPath, "\\", "/");
 			auto pos = fullPath.find_last_of('/');
 			auto  path = fullPath.substr(0, pos);
 			return path;
@@ -531,6 +546,7 @@ namespace seraphim {
 
 			return std::move(std::string(buf));
 		}
+	
 
 		static void EnumeDirectFiles(const string& path, vector<string>& dst) {
 			do {

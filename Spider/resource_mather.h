@@ -4,9 +4,5 @@
 namespace seraphim {
 	class ResourceMather : public BoxMatcher {
 	public:
-		
 	};
-
-
-
 }

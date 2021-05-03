@@ -15,10 +15,10 @@ namespace seraphim {
 	private:
 		CefRefPtr<NativeWindow> mNativeWnd{ nullptr };
 		CefRefPtr<CefBrowser>  mBrowser{};
-		CefRefPtr<RequestMatcherBase> mRequestMatcher{nullptr};
-		CefRefPtr<IResourceStoreFactor>   mResourceStoreFactor{nullptr};
+		CefRefPtr<RequestMatcherBase> mRequestMatcher{ nullptr };
+		CefRefPtr<IResourceStoreFactor>   mResourceStoreFactor{ nullptr };
 		std::map<int, CefRefPtr<BrowserOffscreen>> mmChildren;
-		
+
 		int mUserID{ -1 };
 		int mCefID{ -1 };
 		bool  bWorking{ false };

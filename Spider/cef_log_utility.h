@@ -4,6 +4,7 @@
 #include <include/cef_base.h>
 #include <include/cef_request.h>
 #include <include/cef_response.h>
+#include <include/cef_dom.h>
 namespace seraphim {
 	using  std::wstringstream;
 	using std::wstring;
@@ -58,19 +59,55 @@ namespace seraphim {
 		}
 		return os;
 	}
+
+	//inline wstringstream& operator<<(wstringstream& os, const CefString& str) {
+	//	wstring msg = str.ToWString();
+	//	os << msg;
+	//	return os;
+	//}
+
 	inline wstringstream& operator<<(wstringstream& os, const CefRect bound) {
 		os << L"<" << bound.x << L"," << bound.y << L"," << bound.width << L"," << bound.height << L">";
 		return os;
 	}
 
-	inline wstringstream& operator<<(wstringstream& os, const CefRefPtr<CefRequest>& request) {
+	inline wstringstream& operator<<(wstringstream& os, CefRefPtr<CefRequest> request) {
 		os << L"[CefRequest<" << L"]";// << bound.x << L"," << bound.y << L"," << bound.width << L"," << bound.height << L">";
 		return os;
 	}
-	inline wstringstream& operator<<(wstringstream& os, const CefRefPtr<CefResponse>& request) {
+	inline wstringstream& operator<<(wstringstream& os, CefRefPtr<CefResponse> request) {
 		os << L"[CefResponse]<" << L"]";// << bound.x << L"," << bound.y << L"," << bound.width << L"," << bound.height << L">";
 		return os;
 	}
+
+	inline wstringstream& operator<<(wstringstream& os, CefRefPtr<CefDOMNode> node) {
+
+		do {
+			if (node.get() == nullptr) {
+				os << L"node is Empty";
+				break;
+			}
+			auto type = node->GetType();
+
+			os << L"<type=" << type<<L">";
+			if (type == DOM_NODE_TYPE_TEXT) {
+				auto value = node->GetValue();
+				os << L"value = {" << value.ToWString()<< L"}";
+				break;
+			}
+			CefDOMNode::AttributeMap  attributeMap;
+			node->GetElementAttributes(attributeMap);
+			for (auto& attribute : attributeMap) {
+				auto key = attribute.first.ToWString();
+				auto value = attribute.second.ToWString();
+				os << L"{" << key << L":" << value << L"}";
+			}
+		} while (0);
+
+		return os;
+	}
+
+
 
 	inline  bool  operator<(CefRefPtr<CefRequest> l, CefRefPtr<CefRequest> r) {
 		bool rst = false;
@@ -81,4 +118,6 @@ namespace seraphim {
 		} while (0);
 		return rst;
 	}
+
+
 }

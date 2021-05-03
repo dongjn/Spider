@@ -2,7 +2,10 @@
 #include "log.h"
 #include "common.h"
 #include "visitor_base.h"
+#include "dom_indices_extractor.h"
 namespace seraphim {
+	static const  string kInitJavaScript = "alert(\"bid = %d pid =%d\");";
+
 	void seraphim::RenderProcessHandler::OnBrowserCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDictionaryValue> extra_info)
 	{
 		int userID = -1;
@@ -35,8 +38,29 @@ namespace seraphim {
 				WLOG(10, TAG, L"MainFrame IS NULL!");
 				return TRUE;
 			}
-			browser->GetMainFrame()->VisitDOM(new BaseVisitor);
+			CefRefPtr<DomIndicesExtractor>  exteractor = new DomIndicesExtractor({ 1,5,0,1 }, {}, false);
+
+			CefRefPtr<BaseVisitor>  visitor = new BaseVisitor(exteractor);
+			browser->GetMainFrame()->VisitDOM(visitor);
+			//CefRefPtr<DomIndicesExtractor>  exteractor = new DomIndicesExtractor({ 1,2,0,1,0,1,0,0 }, {}, false);
+			//for (int i = 0; i < 5; i++) {
+			//	CefRefPtr<DomIndicesExtractor>  exteractor = new DomIndicesExtractor({ 1,i}, {}, false);
+
+			//	CefRefPtr<BaseVisitor>  visitor = new BaseVisitor(exteractor);
+			//	WLOG(10, TAG, L"---------------------------", i, L"----------------------------");
+			//	browser->GetMainFrame()->VisitDOM(visitor);
+			//	WLOG(10, TAG, L"---------------------------", i, L"--------------------------------------------------------------------------------------END");
+
+			//}
 		}
 		return TRUE;
+	}
+
+	void RenderProcessHandler::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
+	{
+		auto url = frame->GetURL();
+		char js[1024] = { 0 };
+		sprintf(js, kInitJavaScript.c_str(), browser->GetIdentifier(), GetCurrentProcessId());
+		frame->ExecuteJavaScript(js, url, 0);
 	}
 };

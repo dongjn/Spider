@@ -52,14 +52,16 @@ inline CefRefPtr<CefApp> ChooseAppType(CefRefPtr<CefCommandLine> commandLine, HI
 	do {
 		if (!commandLine->HasSwitch(kProcessType)) {
 			rst = BrowserApp::Make(hInstance, false, false, "http://t66y.com/thread0806.php?fid=16", "");
+			//rst = BrowserApp::Make(hInstance, false, false, R"(C:\Users\seraph\source\Spider\Spider\HTMLPage.htm)", "");
+
 			break;
 		}
 		const string& szAppType = commandLine->GetSwitchValue(kProcessType);
 		if (szAppType == kRendererProcess) {
-			wstringstream  wss;
-			wss << GetCurrentProcessId();
-			auto msg = wss.str();
-			MessageBox(NULL, NULL, msg.c_str(), MB_OK);
+			//wstringstream  wss;
+			//wss << GetCurrentProcessId();
+			//auto msg = wss.str();
+			//MessageBox(NULL, NULL, msg.c_str(), MB_OK);
 			rst = new RenderProcessHandler;
 			break;
 		}
@@ -68,18 +70,16 @@ inline CefRefPtr<CefApp> ChooseAppType(CefRefPtr<CefCommandLine> commandLine, HI
 	return rst;
 }
 
-
 void test_url() {
 	headcode::url::URL  url("https://www.google.com/search?q=%E7%9A%84&oq=%E7%9A%84&aqs=chrome..69i57j69i61l3j69i65l2.1782j0j4&sourceid=chrome&ie=UTF-8");
 	auto host = url.GetHost();
 	auto path = url.GetPath();
-	auto port= url.GetPort();
+	auto port = url.GetPort();
 	auto a = url.GetScheme();
 	auto b = url.GetAuthority();
 	auto c = url.GetSegments();
 	auto d = url.GetQuery();
 	auto e = url.GetUserInfo();
-
 }
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,

@@ -11,12 +11,12 @@ namespace seraphim {
 		CefRefPtr<RequestMatcherBase> first_{ nullptr };
 		CefRefPtr<RequestMatcherBase> second_{ nullptr };
 		bool  bOR_;
-		RequestMatcherBase(CefRefPtr<RequestMatcherBase> first, CefRefPtr<RequestMatcherBase> second,bool bOR) :first_(first), second_(second) ,bOR_(bOR){
+		RequestMatcherBase(CefRefPtr<RequestMatcherBase> first, CefRefPtr<RequestMatcherBase> second, bool bOR) :first_(first), second_(second), bOR_(bOR) {
 		};
 	public:
 		RequestMatcherBase() = default;
 		CefRefPtr<RequestMatcherBase>  CompositeOR(CefRefPtr<RequestMatcherBase> other) {
-			return new RequestMatcherBase(this, other,true);
+			return new RequestMatcherBase(this, other, true);
 		}
 		CefRefPtr<RequestMatcherBase>  CompositeAND(CefRefPtr<RequestMatcherBase> other) {
 			return new RequestMatcherBase(this, other, false);
@@ -30,7 +30,6 @@ namespace seraphim {
 	};
 
 	class ResourceTypeMatcher : public RequestMatcherBase {
-
 		IMPLEMENT_REFCOUNTING(ResourceTypeMatcher);
 		DISALLOW_COPY_AND_ASSIGN(ResourceTypeMatcher);
 	private:
@@ -62,13 +61,11 @@ namespace seraphim {
 	private:
 		CefString  mimeType_;
 	public:
-		MimetypeMatcher(CefString mimeType) :mimeType_(mimeType){
-		
+		MimetypeMatcher(CefString mimeType) :mimeType_(mimeType) {
 		};
 		virtual bool Matching(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response)  override {
 			auto mimeType = response->GetMimeType();
 			return mimeType.compare(mimeType_) == 0;
 		}
-
 	};
 };

@@ -546,7 +546,6 @@ namespace seraphim {
 
 			return std::move(std::string(buf));
 		}
-	
 
 		static void EnumeDirectFiles(const string& path, vector<string>& dst) {
 			do {

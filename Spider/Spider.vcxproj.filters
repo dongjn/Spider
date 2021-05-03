@@ -90,6 +90,12 @@
     <ClInclude Include="cef_log_utility.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="dom_extractor_inteface.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dom_indices_extractor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -134,6 +140,9 @@
     <ClCompile Include="file_store_facotr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="dom_indices_extractor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Spider.rc">
@@ -147,5 +156,8 @@
     <Image Include="Spider.ico">
       <Filter>资源文件</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="HTMLPage.htm" />
   </ItemGroup>
 </Project>

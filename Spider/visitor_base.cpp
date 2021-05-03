@@ -5,16 +5,27 @@
 #include "log.h"
 #include <sstream>
 namespace seraphim {
+	BaseVisitor::BaseVisitor(CefRefPtr<IDomExtractor> extractor) :mExtractor(extractor)
+	{
+	}
+
 	void BaseVisitor::Visit(CefRefPtr<CefDOMDocument> document)
 	{
-		auto url = document->GetHead()->GetName();
-		//auto note  =document->GetDocument()->GetFirstChild();
-		auto note = document->GetBody();
-		auto last = document->GetDocument()->GetLastChild();
-		ErgodicNode(note);
-
-		auto  szUrl = url.ToWString();
-		WLOG(10, TAG, L"url ", szUrl);
+		if (mExtractor.get() != nullptr) {
+			auto url = document->GetHead()->GetName();
+			auto note = document->GetBody();
+			vector<DomInfo>  vInfos;
+			try {
+				mExtractor->Extraction(document, vInfos);
+			}
+			catch (DomExtractorError& e) {
+				CefRefPtr<CefDOMNode>  pn = e.node;
+				WLOG(10, TAG, L"extractor DOM error e = ", e,pn,L">");
+			}
+			for (auto pinfo : vInfos) {
+				WLOG(10, TAG, L"value = ", pinfo.value.ToWString());
+			}
+		}
 	}
 
 	void BaseVisitor::ErgodicNode(CefRefPtr<CefDOMNode> node)

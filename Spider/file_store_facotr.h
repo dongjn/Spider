@@ -4,13 +4,12 @@
 namespace seraphim {
 	using std::string;
 	class FileStoreFactor : public IResourceStoreFactor {
-
 	private:
 		int startIndex{ 0 };
 		class ResponseFilter : public CefResponseFilter {
 		public:
 			CefString mUrl;
-			HANDLE fHandle{NULL};
+			HANDLE fHandle{ NULL };
 			ResponseFilter() = default;
 			ResponseFilter(HANDLE hFile) :fHandle(hFile) {};
 			virtual bool InitFilter() override;;
@@ -18,20 +17,17 @@ namespace seraphim {
 			~ResponseFilter();
 			IMPLEMENT_REFCOUNTING(ResponseFilter);
 			DISALLOW_COPY_AND_ASSIGN(ResponseFilter);
-
 		};
 	private:
 		const string mBasePath;
 		const string mBaseName;
 		const string mSuffixName;
-		int      count{0};
+		int      count{ 0 };
 	public:
-		FileStoreFactor(const string& path, const string& baseName,const string &suffixName);
+		FileStoreFactor(const string& path, const string& baseName, const string& suffixName);
 		IMPLEMENT_REFCOUNTING(FileStoreFactor);
 		DISALLOW_COPY_AND_ASSIGN(FileStoreFactor);
 
 		virtual CefRefPtr<CefResponseFilter> MakeFilter() override;
-
-
 	};
 };

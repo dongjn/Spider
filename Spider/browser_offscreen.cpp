@@ -10,7 +10,7 @@ namespace seraphim {
 		mCefID = browser->GetIdentifier();
 	}
 
-	BrowserOffscreen::BrowserOffscreen(int user_id) :mUserID(user_id)
+	BrowserOffscreen::BrowserOffscreen(int user_id) : mUserID(user_id)
 	{
 	}
 
@@ -93,7 +93,7 @@ namespace seraphim {
 
 	CefRefPtr<BrowserOffscreen> BrowserOffscreen::CreateChildByID(int parent_id, int user_id)
 	{
-		CefRefPtr<BrowserOffscreen> rst{nullptr};
+		CefRefPtr<BrowserOffscreen> rst{ nullptr };
 		if (mUserID == parent_id) {
 			CefRefPtr<BrowserOffscreen>  browser = new BrowserOffscreen(user_id);
 			mmChildren.insert(std::make_pair(user_id, browser));
@@ -138,17 +138,16 @@ namespace seraphim {
 
 	CefRefPtr<CefResponseFilter> BrowserOffscreen::GetResponseFilter(CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response)
 	{
-		CefRefPtr<CefResponseFilter> filter{nullptr};
+		CefRefPtr<CefResponseFilter> filter{ nullptr };
 		do {
-			if (mRequestMatcher.get() == nullptr) 
+			if (mRequestMatcher.get() == nullptr)
 				break;
 
-			if(!mRequestMatcher->Matching(mBrowser,frame,request,response)) 
+			if (!mRequestMatcher->Matching(mBrowser, frame, request, response))
 				break;
 			if (mResourceStoreFactor.get() == nullptr)
 				break;
 			filter = mResourceStoreFactor->MakeFilter();
-
 		} while (false);
 		return filter;
 	}

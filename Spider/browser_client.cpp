@@ -71,12 +71,12 @@ namespace seraphim {
 		extra_info->SetValue(kKeyParentID, vParentID);
 		auto b = mTopBrowser->CreateChildByID(parentID, userId);
 		//Debug
-		auto [path,name] = CefUtility::UrlToPath(target_url);
+		auto [path, name] = CefUtility::UrlToPath(target_url);
 		auto matcher = new ResourceTypeMatcher(CefRequest::ResourceType::RT_IMAGE);
-		auto factor = new FileStoreFactor(path.c_str(), "base",".jpg");
+		auto factor = new FileStoreFactor(path.c_str(), "base", ".jpg");
 		b->SetFilterFactor(factor);
 		b->SetRequestMatcher(matcher);
-		
+
 		return false;
 	}
 

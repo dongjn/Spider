@@ -167,6 +167,8 @@ exit /b %1
     <ClInclude Include="cef_log_utility.h" />
     <ClInclude Include="cef_utility.h" />
     <ClInclude Include="common.h" />
+    <ClInclude Include="dom_extractor_inteface.h" />
+    <ClInclude Include="dom_indices_extractor.h" />
     <ClInclude Include="file_store_facotr.h" />
     <ClInclude Include="IExtractor.h" />
     <ClInclude Include="matcher_box.h" />
@@ -192,6 +194,7 @@ exit /b %1
     <ClCompile Include="browser_client.cpp" />
     <ClCompile Include="browser_offscreen.cpp" />
     <ClCompile Include="common.cpp" />
+    <ClCompile Include="dom_indices_extractor.cpp" />
     <ClCompile Include="file_store_facotr.cpp" />
     <ClCompile Include="IExtractor.cpp" />
     <ClCompile Include="matcher_box.cpp" />
@@ -208,6 +211,11 @@ exit /b %1
   <ItemGroup>
     <Image Include="small.ico" />
     <Image Include="Spider.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="HTMLPage.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

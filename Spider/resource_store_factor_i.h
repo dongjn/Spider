@@ -6,7 +6,6 @@ namespace seraphim {
 		DISALLOW_COPY_AND_ASSIGN(IResourceStoreFactor);
 	public:
 		IResourceStoreFactor() = default;
-		virtual CefRefPtr<CefResponseFilter>  MakeFilter()  =  0;
+		virtual CefRefPtr<CefResponseFilter>  MakeFilter() = 0;
 	};
-
 }

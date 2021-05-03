@@ -7,19 +7,16 @@
 #undef min
 #undef max
 namespace seraphim {
-
-	FileStoreFactor::FileStoreFactor(const string& path,const string& baseName,const string& suffixName):mBasePath(path),mBaseName(baseName),mSuffixName(suffixName)
+	FileStoreFactor::FileStoreFactor(const string& path, const string& baseName, const string& suffixName) :mBasePath(path), mBaseName(baseName), mSuffixName(suffixName)
 	{
 		Tools::CreateFolderForPath(mBasePath);
-		
 	}
 
 	CefRefPtr<CefResponseFilter> FileStoreFactor::MakeFilter()
-	{		
-
+	{
 		std::stringstream ss;
-		ss << mBasePath << mBaseName <<count++<<mSuffixName;
-		//ss << 
+		ss << mBasePath << mBaseName << count++ << mSuffixName;
+		//ss <<
 
 		auto name = ss.str();
 		auto h = CreateFileA(name.c_str(), GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -65,7 +62,4 @@ namespace seraphim {
 		if (fHandle)
 			CloseHandle(fHandle);
 	}
-
 };
-
-

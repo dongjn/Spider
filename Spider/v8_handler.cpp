@@ -18,9 +18,19 @@ namespace seraphim {
 	static const CefString gArchiveCheckKeyName = L"archive_check";
 	static const CefString gArchivePathKeyName = L"archive_path";
 
+	CefRefPtr<seraphim::V8Handler> V8Handler::self_{ nullptr };
+
 	bool V8Handler::Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
 	{
 		const std::wstring szName = name.ToWString();
 		return true;
+	}
+
+	CefRefPtr<seraphim::V8Handler> V8Handler::Make(CefRefPtr<CefBrowser> browser)
+	{
+		if (self_.get() == nullptr) {
+			self_ = new V8Handler(browser);
+		}
+		return self_;
 	}
 };

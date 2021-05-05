@@ -61,6 +61,6 @@ namespace seraphim {
 		auto url = frame->GetURL();
 		char js[1024] = { 0 };
 		sprintf(js, kInitJavaScript.c_str(), browser->GetIdentifier(), GetCurrentProcessId());
-		//frame->ExecuteJavaScript(js, url, 0);
+		frame->ExecuteJavaScript(js, url, 0);
 	}
 };

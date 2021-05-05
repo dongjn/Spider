@@ -4,16 +4,20 @@
 #include "cef_log_utility.h"
 #include "common_log.h"
 #include <sstream>
+#include "dom_node.h"
 namespace seraphim {
 	void BaseVisitor::Visit(CefRefPtr<CefDOMDocument> document)
 	{
+		
 		if (mDOMNodeMatcher) {
 			auto url = document->GetHead()->GetName();
-			auto node = document->GetBody();
+			CefRefPtr<DOMNode> node = new DOMNode(document->GetBody());
 			try {
-				auto vNode = mDOMNodeMatcher->Match({ node });
+				vector<CefRefPtr<DOMNode>>  vNode{ node };
+				mDOMNodeMatcher->Match(vNode);
 				for (auto& node : vNode) {
-					WLOG(10, TAG,L"DOMNODE:", node);
+					//WLOG(10, TAG,L"DOMNODE:", node);
+					node->Process();
 				}
 			}
 			catch (DOMError& e) {

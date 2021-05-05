@@ -7,7 +7,7 @@ namespace seraphim {
 	public:
 		DomExtractor() = default;
 
-		virtual void Extraction(CefRefPtr<CefDOMNode> node, vector<DomInfo>& infos) throw(DOMError)override;
+		virtual void Extraction(CefRefPtr<CefDOMNode> node, vector<DOMNode>& infos) throw(DOMError)override;
 
 	};
 };

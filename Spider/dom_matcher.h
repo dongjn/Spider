@@ -2,26 +2,26 @@
 #include <include/cef_dom.h>
 #include <vector>
 #include "dom_error.h"
+#include "dom_node.h"
 namespace seraphim {
 	using std::vector;
 	class DOMNodeMatcher : CefBaseRefCounted {
 		IMPLEMENT_REFCOUNTING(DOMNodeMatcher);
 		DISALLOW_COPY_AND_ASSIGN(DOMNodeMatcher);
 	protected:
-		CefRefPtr<DOMNodeMatcher>  next{ nullptr };
+		DOMNodeOP  op_{nullptr};
+		CefRefPtr<DOMNodeMatcher>  next_{ nullptr };
 	public:
 		DOMNodeMatcher() = default;
-
 		void 	Append(CefRefPtr<DOMNodeMatcher> matcher) {
-			if (nullptr == next) {
-				next = matcher;
+			if (nullptr == next_) {
+				next_ = matcher;
 			}
 			else {
-				next->Append(matcher);
+				next_->Append(matcher);
 			}
 		}
-		virtual vector <CefRefPtr<CefDOMNode>>  Match(vector<CefRefPtr<CefDOMNode>> node)  throw(DOMError);
-
+		virtual void Match(vector<CefRefPtr<DOMNode>> vNode);
 	};
 	/**
 	 *
@@ -34,10 +34,10 @@ namespace seraphim {
 		CefString  mName;
 	public:
 		DOMNodeNameMatcher() = default;
-		DOMNodeNameMatcher(CefString name, int index = -1) :mName(name), mIndex(index) {
-
+		DOMNodeNameMatcher(CefString name, int index = -1,DOMNodeOP op = nullptr) :mName(name), mIndex(index){
+			op_ = op;
 		};
-		virtual vector<CefRefPtr<CefDOMNode>> Match(vector<CefRefPtr<CefDOMNode>> node) override;
+		virtual void Match(vector<CefRefPtr<DOMNode>> node) override;
 	};
 	/**
 	 *
@@ -51,29 +51,33 @@ namespace seraphim {
 		CefString mPerpertyValue;
 	public:
 		DOMNodePerpertyMatcher() = default;
-		DOMNodePerpertyMatcher(CefString name, int index = -1) :mPerpertyName(name), mIndex(index) {
+		DOMNodePerpertyMatcher(CefString name, int index = -1,DOMNodeOP op = nullptr) :mPerpertyName(name), mIndex(index) {
+			op_ = op;
 		};
 		DOMNodePerpertyMatcher(CefString name, CefString value, int index = -1) :mPerpertyName(name), mPerpertyValue(value), mIndex(index) {
 		};
-		virtual vector<CefRefPtr<CefDOMNode>> Match(vector<CefRefPtr<CefDOMNode>> node) override;
+		virtual void Match(vector<CefRefPtr<DOMNode>> node) override;
 	};
 	class DOMNOdeParentMatcher : public DOMNodeMatcher {
 		IMPLEMENT_REFCOUNTING(DOMNOdeParentMatcher);
 		DISALLOW_COPY_AND_ASSIGN(DOMNOdeParentMatcher);
 	public:
 		DOMNOdeParentMatcher() = default;
-		virtual vector<CefRefPtr<CefDOMNode>> Match(vector<CefRefPtr<CefDOMNode>> vNode) {
-			vector<CefRefPtr<CefDOMNode>> vResult;
-			for (auto& node : vNode) {
-				auto parent = node->GetParent();
-				vResult.push_back(parent);
-				}
-
-			return DOMNodeMatcher::Match(vResult);
+		DOMNOdeParentMatcher(DOMNodeOP op){
+			op_ = op;
+		}
+		virtual void  Match(vector<CefRefPtr<DOMNode>> vNode) {
+			vector<CefRefPtr<DOMNode>> vResult;
+			//for (CefRefPtr<CefDOMNode> node : vNode) {
+			//	auto parent = node->GetParent();
+			//	//vResult.push_back(parent);
+			//	}
+			DOMNodeMatcher::Match(vResult);
+			return ;
 			
 		};
 
 	};
 
-
+	//operator CefRefPtr<CefDOMNode>()
 };

@@ -9,14 +9,14 @@ namespace seraphim {
 
 
 
-	vector<CefRefPtr<CefDOMNode>> DOMNodeNameMatcher::Match(vector<CefRefPtr<CefDOMNode>> vNodes)
+	void DOMNodeNameMatcher::Match(vector<CefRefPtr<DOMNode>> vNodes)
 	{
-		vector <CefRefPtr<CefDOMNode>> vResutl;
 		do {
-			for (auto& node : vNodes) {
+			for (CefRefPtr<DOMNode> mine_node : vNodes) {
+				auto node = mine_node->node_;
 				int index = 0;
 				auto child = node->GetFirstChild();
-				auto m = SearchSlibling(child, [&vResutl,this,&index](CefRefPtr<CefDOMNode>  n)->bool {
+				auto m = SearchSlibling(child, [this,mine_node,&index](CefRefPtr<CefDOMNode>  n)->bool {
 					bool  rst = false;
 					do {
 						if (n.get() == nullptr) {
@@ -33,71 +33,72 @@ namespace seraphim {
 						if (name.compare(mName) != 0) {
 							break;
 						}
-						if (mIndex == -1) {
-							vResutl.push_back(n);
+						if (mIndex == -1 || index++ == mIndex) {
+							CefRefPtr<DOMNode> r_node = new DOMNode(n);
+							mine_node->AddChild(r_node);
 							break;
-						}
-						if (index++ == mIndex) {
-							vResutl.push_back(n);
-							rst = true;
 						}
 					} while (0);
 					return rst;
 					});
-
 			}
 		} while (0);
-		return DOMNodeMatcher::Match(vResutl);
+		DOMNodeMatcher::Match(vNodes);
+		return ;
 	}
 
-	vector<CefRefPtr<CefDOMNode>> DOMNodePerpertyMatcher::Match(vector<CefRefPtr<CefDOMNode>> vNodes)
+	void DOMNodePerpertyMatcher::Match(vector<CefRefPtr<DOMNode>> vNodes)
 	{
-		vector <CefRefPtr<CefDOMNode>> vResutl;
-		do {
-			for (auto& node : vNodes) {
-				int index = 0;
-				auto child = node->GetFirstChild();
-				SearchSlibling(child, [&vResutl, this, &index](CefRefPtr<CefDOMNode>  n)->bool {
-					bool  rst = false;
-					do {
-						if (n.get() == nullptr) {
-							rst = true;
-							break;
-						}
-						if (NeedSkip(n)) {
-							break;
-						}
-						if (!n->HasElementAttribute(mPerpertyName)) {
-							break;
-						}
-						auto value = n->GetElementAttribute(mPerpertyName);
-						if (!mPerpertyValue.empty() &&  mPerpertyValue.compare(value) != 0)
-							break;
+		vector <CefRefPtr<DOMNode>> vResutl;
+		//do {
+		//	for ( auto & node : vNodes) {
+		//		int index = 0;
+		//		auto child = node->node_->GetFirstChild();
+		//		SearchSlibling(child, [&vResutl, this, &index](CefRefPtr<DOMNode>  n)->bool {
+		//			bool  rst = false;
+		//			do {
+		//				if (n.get() == nullptr) {
+		//					rst = true;
+		//					break;
+		//				}
+		//				if (NeedSkip(n)) {
+		//					break;
+		//				}
+		//				if (!n->node_->HasElementAttribute(mPerpertyName)) {
+		//					break;
+		//				}
+		//				auto value = n->node_->GetElementAttribute(mPerpertyName);
+		//				if (!mPerpertyValue.empty() &&  mPerpertyValue.compare(value) != 0)
+		//					break;
 
-						if (mIndex == -1) {
-							vResutl.push_back(n);
-							break;
-						}
-						if (index++ == mIndex) {
-							vResutl.push_back(n);
-							rst = true;
-						}
-					} while (0);
-					return rst;
-					});
+		//				if (mIndex == -1) {
+		//					//vResutl.push_back(n);
+		//					break;
+		//				}
+		//				if (index++ == mIndex) {
+		//					//vResutl.push_back(n);
+		//					rst = true;
+		//				}
+		//			} while (0);
+		//			return rst;
+		//			});
 
-			}
-		} while (0);
+		//	}
+		//} while (0);
 		
 		return DOMNodeMatcher::Match(vNodes);
 	}
 
-	vector <CefRefPtr<CefDOMNode>> DOMNodeMatcher::Match(vector<CefRefPtr<CefDOMNode>> node) throw(DOMError)
+	void  DOMNodeMatcher::Match(vector<CefRefPtr<DOMNode>> vNode)
 	{
-		if (next) {
-			return next->Match(node);
+		if (next_) {
+			for (auto node : vNode)
+			{
+				auto childer = node->children;
+				next_->Match(childer);
+			}
 		}
-		return node;
+		return;
 	}
 
 };

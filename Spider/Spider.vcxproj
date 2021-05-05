@@ -172,6 +172,7 @@ exit /b %1
     <ClInclude Include="dom_extractor_inteface.h" />
     <ClInclude Include="dom_indices_extractor.h" />
     <ClInclude Include="dom_matcher.h" />
+    <ClInclude Include="dom_node.h" />
     <ClInclude Include="dom_utility.h" />
     <ClInclude Include="file_store_facotr.h" />
     <ClInclude Include="IExtractor.h" />

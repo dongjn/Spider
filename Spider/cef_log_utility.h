@@ -95,6 +95,10 @@ namespace seraphim {
 				os << L"value = {" << value.ToWString()<< L"}";
 				break;
 			}
+
+			auto name = node->GetName();
+			os << L"<name :" << name.ToWString()<< L">";
+
 			CefDOMNode::AttributeMap  attributeMap;
 			node->GetElementAttributes(attributeMap);
 			for (auto& attribute : attributeMap) {
@@ -102,6 +106,8 @@ namespace seraphim {
 				auto value = attribute.second.ToWString();
 				os << L"{" << key << L":" << value << L"}";
 			}
+			auto szValue = node->GetValue();
+			os << L"value:" << szValue.ToWString();
 		} while (0);
 
 		return os;

@@ -8,7 +8,7 @@
 #include <fstream>
 #include  <vector>
 #include <string>
-#include "log.h"
+#include "common_log.h"
 
 //static const wchar_t* TAG = L"<seraphim>";
 using std::vector;

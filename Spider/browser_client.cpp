@@ -1,9 +1,8 @@
 #include "browser_client.h"
 #include "browser_app.h"
 #include  "browser_login.h"
-#include "log.h"
+#include "common_log.h"
 #include "common.h"
-#include  "resource_mather.h"
 #include  "file_store_facotr.h"
 #include "cef_utility.h"
 namespace seraphim {

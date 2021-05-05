@@ -2,7 +2,7 @@
 #include "browser_app.h"
 #include <algorithm>
 #include "common.h"
-#include "log.h"
+#include "common_log.h"
 #include "cef_log_utility.h"
 namespace seraphim {
 	BrowserOffscreen::BrowserOffscreen(CefRefPtr<CefBrowser> browser, int user_id) :mBrowser(browser), mUserID(user_id)

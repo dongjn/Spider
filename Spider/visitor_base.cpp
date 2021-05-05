@@ -2,28 +2,23 @@
 
 #include "common.h"
 #include "cef_log_utility.h"
-#include "log.h"
+#include "common_log.h"
 #include <sstream>
 namespace seraphim {
-	BaseVisitor::BaseVisitor(CefRefPtr<IDomExtractor> extractor) :mExtractor(extractor)
-	{
-	}
-
 	void BaseVisitor::Visit(CefRefPtr<CefDOMDocument> document)
 	{
-		if (mExtractor.get() != nullptr) {
+		if (mDOMNodeMatcher) {
 			auto url = document->GetHead()->GetName();
-			auto note = document->GetBody();
-			vector<DomInfo>  vInfos;
+			auto node = document->GetBody();
 			try {
-				mExtractor->Extraction(document, vInfos);
+				auto vNode = mDOMNodeMatcher->Match({ node });
+				for (auto& node : vNode) {
+					WLOG(10, TAG,L"DOMNODE:", node);
+				}
 			}
-			catch (DomExtractorError& e) {
+			catch (DOMError& e) {
 				CefRefPtr<CefDOMNode>  pn = e.node;
-				WLOG(10, TAG, L"extractor DOM error e = ", e,pn,L">");
-			}
-			for (auto pinfo : vInfos) {
-				WLOG(10, TAG, L"value = ", pinfo.value.ToWString());
+				WLOG(10, TAG, L"extractor DOM error e = ", e, pn, L">");
 			}
 		}
 	}

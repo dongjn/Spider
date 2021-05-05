@@ -39,7 +39,7 @@
     <ClInclude Include="common_tools.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="log.h">
+    <ClInclude Include="common_log.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="native_window.h">
@@ -78,9 +78,6 @@
     <ClInclude Include="resource_store_factor_i.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="resource_mather.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="request_matcher.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -94,6 +91,18 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="dom_indices_extractor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dom_matcher.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dom_error.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dom_extractor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dom_utility.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -141,6 +150,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="dom_indices_extractor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="dom_extractor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="dom_matcher.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

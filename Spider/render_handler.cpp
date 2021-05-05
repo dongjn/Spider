@@ -1,5 +1,5 @@
 #include "render_handler.h"
-#include "log.h"
+#include "common_log.h"
 #include "common.h"
 #include "visitor_base.h"
 #include "dom_indices_extractor.h"
@@ -38,20 +38,20 @@ namespace seraphim {
 				WLOG(10, TAG, L"MainFrame IS NULL!");
 				return TRUE;
 			}
-			CefRefPtr<DomIndicesExtractor>  exteractor = new DomIndicesExtractor({ 1,5,0,1 }, {}, false);
+			//div[2] / div[3] / table / tbody[2] / tr[13] / td[2]
+			// /html/body/div[2]/div[3]/table/tbody[2]/tr[13]/td[2]/h3
+			//CefRefPtr<DomIndicesExtractor>  exteractor = new DomIndicesExtractor({ 1,5,0,1 }, {}, false);
+			CefRefPtr<DOMNodeNameMatcher>  matcher = new DOMNodeNameMatcher("DIV",1);
+			matcher->Append(new DOMNodeNameMatcher("DIV",2));
+			matcher->Append(new DOMNodeNameMatcher("TABLE", 0));
+			matcher->Append(new DOMNodeNameMatcher("TBODY", 1));
+			matcher->Append(new DOMNodeNameMatcher("TR"));
+			matcher->Append(new DOMNodeNameMatcher("TD", 1));
+			matcher->Append(new DOMNodeNameMatcher("H3"));
+			matcher->Append(new DOMNodeNameMatcher("A"));
 
-			CefRefPtr<BaseVisitor>  visitor = new BaseVisitor(exteractor);
+			CefRefPtr<BaseVisitor>  visitor = new BaseVisitor(matcher);
 			browser->GetMainFrame()->VisitDOM(visitor);
-			//CefRefPtr<DomIndicesExtractor>  exteractor = new DomIndicesExtractor({ 1,2,0,1,0,1,0,0 }, {}, false);
-			//for (int i = 0; i < 5; i++) {
-			//	CefRefPtr<DomIndicesExtractor>  exteractor = new DomIndicesExtractor({ 1,i}, {}, false);
-
-			//	CefRefPtr<BaseVisitor>  visitor = new BaseVisitor(exteractor);
-			//	WLOG(10, TAG, L"---------------------------", i, L"----------------------------");
-			//	browser->GetMainFrame()->VisitDOM(visitor);
-			//	WLOG(10, TAG, L"---------------------------", i, L"--------------------------------------------------------------------------------------END");
-
-			//}
 		}
 		return TRUE;
 	}
@@ -61,6 +61,6 @@ namespace seraphim {
 		auto url = frame->GetURL();
 		char js[1024] = { 0 };
 		sprintf(js, kInitJavaScript.c_str(), browser->GetIdentifier(), GetCurrentProcessId());
-		frame->ExecuteJavaScript(js, url, 0);
+		//frame->ExecuteJavaScript(js, url, 0);
 	}
 };

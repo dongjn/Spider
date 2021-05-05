@@ -1,13 +1,16 @@
 #pragma once
 #include "dom_extractor_inteface.h"
 #include <include/cef_dom.h>
+#include "dom_matcher.h"
 namespace seraphim {
 	class BaseVisitor : public CefDOMVisitor {
 	private:
-		CefRefPtr<IDomExtractor>  mExtractor{ nullptr };
+		//CefRefPtr<IDomExtractor>  mExtractor{ nullptr };
+		CefRefPtr<DOMNodeMatcher>  mDOMNodeMatcher{nullptr};
 	public:
 		BaseVisitor() = default;
-		BaseVisitor(CefRefPtr<IDomExtractor> extractor);
+		//BaseVisitor(CefRefPtr<IDomExtractor> extractor);
+		BaseVisitor(CefRefPtr<DOMNodeMatcher> matcher) :mDOMNodeMatcher(matcher) {};
 		virtual void Visit(CefRefPtr<CefDOMDocument> document) override;
 
 		void ErgodicNode(CefRefPtr<CefDOMNode> node);

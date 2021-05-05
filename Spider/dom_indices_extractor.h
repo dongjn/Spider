@@ -11,11 +11,11 @@ namespace seraphim {
 		vector<int>  mIndeices;
 		vector<CefString> mPropertyKeys;
 		int deep{ 0 };
-		CefRefPtr<CefDOMNode> ErgodicNode(CefRefPtr<CefDOMNode> node, int deep) throw(DomExtractorError);
+		CefRefPtr<CefDOMNode> ErgodicNode(CefRefPtr<CefDOMNode> node, int deep) throw(DOMError);
 	public:
 		DomIndicesExtractor() = default;
 		DomIndicesExtractor(const vector<int>& indices, const vector<CefString>& properties, bool isArray);
 
-		virtual void Extraction(CefRefPtr<CefDOMNode> node, vector <DomInfo>& infos) throw(DomExtractorError)override;
+		virtual void Extraction(CefRefPtr<CefDOMNode> node, vector <DomInfo>& infos) throw(DOMError)override;
 	};
 };

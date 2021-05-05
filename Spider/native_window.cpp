@@ -1,5 +1,5 @@
 #include "native_window.h"
-#include "log.h"
+#include "common_log.h"
 #include "common.h"
 #include<Windows.h>
 #include <WinUser.h>

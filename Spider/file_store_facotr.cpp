@@ -1,6 +1,6 @@
 #pragma warning(disable :26812)
 #include "file_store_facotr.h"
-#include "log.h"
+#include "common_log.h"
 #include "common.h"
 #include "common_tools.hpp"
 #include <sstream>
@@ -37,8 +37,6 @@ namespace seraphim {
 
 	CefResponseFilter::FilterStatus FileStoreFactor::ResponseFilter::Filter(void* data_in, size_t data_in_size, size_t& data_in_read, void* data_out, size_t data_out_size, size_t& data_out_written)
 	{
-		WLOG(10, TAG, L"ResponseFilter::Filter");
-		//assert(data_in_size <= data_out_size);
 		if (data_in_size == 0 || data_in == nullptr) {
 			WLOG(10, TAG, L"");
 			data_in_read = 0;

@@ -1,5 +1,5 @@
 #include "v8_handler.h"
-#include "log.h"
+#include "common_log.h"
 
 namespace seraphim {
 	static const CefString  gGameIdKeyName = L"game_id";

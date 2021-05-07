@@ -6,13 +6,13 @@ namespace seraphim {
 	class BaseVisitor : public CefDOMVisitor {
 	private:
 		//CefRefPtr<IDomExtractor>  mExtractor{ nullptr };
-		CefRefPtr<DOMNodeMatcher>  mDOMNodeMatcher{nullptr};
+		shared_ptr<DOMNodeMatcher>  mDOMNodeMatcher{nullptr};
 	public:
 		BaseVisitor() = default;
 		//BaseVisitor(CefRefPtr<IDomExtractor> extractor);
-		BaseVisitor(CefRefPtr<DOMNodeMatcher> matcher) :mDOMNodeMatcher(matcher) {};
+		BaseVisitor(shared_ptr<DOMNodeMatcher> matcher) :mDOMNodeMatcher(matcher) {};
 		virtual void Visit(CefRefPtr<CefDOMDocument> document) override;
-
+		
 		void ErgodicNode(CefRefPtr<CefDOMNode> node);
 
 		~BaseVisitor();

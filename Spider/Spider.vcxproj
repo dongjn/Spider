@@ -173,6 +173,7 @@ exit /b %1
     <ClInclude Include="dom_indices_extractor.h" />
     <ClInclude Include="dom_matcher.h" />
     <ClInclude Include="dom_node.h" />
+    <ClInclude Include="dom_operator.h" />
     <ClInclude Include="dom_utility.h" />
     <ClInclude Include="file_store_facotr.h" />
     <ClInclude Include="IExtractor.h" />
@@ -184,7 +185,7 @@ exit /b %1
     <ClInclude Include="framework.h" />
     <ClInclude Include="common_log.h" />
     <ClInclude Include="native_window.h" />
-    <ClInclude Include="render_handler.h" />
+    <ClInclude Include="render_process_handler.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="targetver.h" />
@@ -207,7 +208,7 @@ exit /b %1
     <ClCompile Include="request_handler.cpp" />
     <ClCompile Include="visitor_base.cpp" />
     <ClCompile Include="native_window.cpp" />
-    <ClCompile Include="render_handler.cpp" />
+    <ClCompile Include="render_process_handler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="v8_handler.cpp" />
   </ItemGroup>
@@ -219,6 +220,7 @@ exit /b %1
     <Image Include="Spider.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\init.js" />
     <None Include="HTMLPage.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>

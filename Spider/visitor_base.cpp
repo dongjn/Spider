@@ -11,12 +11,12 @@ namespace seraphim {
 		
 		if (mDOMNodeMatcher) {
 			auto url = document->GetHead()->GetName();
-			CefRefPtr<DOMNode> node = new DOMNode(document->GetBody());
+			auto body = document->GetBody();
+			shared_ptr<DOMNode> node = std::make_shared<DOMNode>(body);// = new DOMNode(document->GetBody());
 			try {
-				vector<CefRefPtr<DOMNode>>  vNode{ node };
+				vector<shared_ptr<DOMNode>>  vNode{ node };
 				mDOMNodeMatcher->Match(vNode);
 				for (auto& node : vNode) {
-					//WLOG(10, TAG,L"DOMNODE:", node);
 					node->Process();
 				}
 			}

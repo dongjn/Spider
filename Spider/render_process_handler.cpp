@@ -1,6 +1,7 @@
-#include "render_handler.h"
+#include "render_process_handler.h"
 #include "common_log.h"
 #include "common.h"
+#include "common_tools.hpp"
 #include "visitor_base.h"
 #include "dom_indices_extractor.h"
 namespace seraphim {
@@ -41,14 +42,32 @@ namespace seraphim {
 			//div[2] / div[3] / table / tbody[2] / tr[13] / td[2]
 			// /html/body/div[2]/div[3]/table/tbody[2]/tr[13]/td[2]/h3
 			//CefRefPtr<DomIndicesExtractor>  exteractor = new DomIndicesExtractor({ 1,5,0,1 }, {}, false);
-			CefRefPtr<DOMNodeNameMatcher>  matcher = new DOMNodeNameMatcher("DIV",1);
-			matcher->Append(new DOMNodeNameMatcher("DIV",2));
-			matcher->Append(new DOMNodeNameMatcher("TABLE", 0));
-			matcher->Append(new DOMNodeNameMatcher("TBODY", 1));
-			matcher->Append(new DOMNodeNameMatcher("TR"));
-			matcher->Append(new DOMNodeNameMatcher("TD", 1));
-			matcher->Append(new DOMNodeNameMatcher("H3"));
-			matcher->Append(new DOMNodeNameMatcher("A"));
+			auto op = [](shared_ptr<DOMNode> node) {
+				WLOG(10, TAG, L"match node  = ", node);
+			};
+			shared_ptr<DOMNodeNameMatcher>  matcher = std::make_shared<DOMNodeNameMatcher>("DIV",1);// = new DOMNodeNameMatcher("DIV", 1);
+
+			matcher->Append(std::make_shared<DOMNodeNameMatcher>("DIV",2));
+			matcher->Append(std::make_shared<DOMNodeNameMatcher>("TABLE", 0));
+			matcher->Append(std::make_shared<DOMNodeNameMatcher>("TBODY", 1));
+			matcher->Append(std::make_shared<DOMNodeNameMatcher>("TR"));
+			matcher->Append(std::make_shared<DOMNodeNameMatcher>("TD", 1));
+			matcher->Append(std::make_shared<DOMNodeNameMatcher>("H3",-1));
+			matcher->Append(std::make_shared<DOMNodeNameMatcher>("A", -1, [](shared_ptr<DOMNode> mnode) {
+				auto node = mnode->GetNode();
+				if (node->HasElementAttribute("HREF")) {
+					auto href = node->GetElementAttribute("HREF");
+					auto wszHref = href.ToWString();
+					for (const auto& c : mnode->GetChildren()) {
+						c->SetOperator([wszHref](shared_ptr<DOMNode> cnode) {
+							auto ccnode = cnode->GetNode();
+							auto value = ccnode->GetValue();
+							WLOG(10, TAG, L"node", ccnode, L"|url", wszHref);
+							});
+					}
+				}	
+				}));
+			matcher->Append(std::make_shared<DOMNodeNameMatcher>("FONT", -1));
 
 			CefRefPtr<BaseVisitor>  visitor = new BaseVisitor(matcher);
 			browser->GetMainFrame()->VisitDOM(visitor);
@@ -60,7 +79,13 @@ namespace seraphim {
 	{
 		auto url = frame->GetURL();
 		char js[1024] = { 0 };
-		sprintf(js, kInitJavaScript.c_str(), browser->GetIdentifier(), GetCurrentProcessId());
+		memset(js, 0, 1024);
+		sprintf(js, "alert(%d);", GetCurrentProcessId());
 		frame->ExecuteJavaScript(js, url, 0);
+
+
+
+
+
 	}
 };

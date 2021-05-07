@@ -51,7 +51,7 @@
     <ClInclude Include="visitor_base.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="render_handler.h">
+    <ClInclude Include="render_process_handler.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="browser_login.h">
@@ -108,6 +108,9 @@
     <ClInclude Include="dom_node.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="dom_operator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -128,7 +131,7 @@
     <ClCompile Include="visitor_base.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="render_handler.cpp">
+    <ClCompile Include="render_process_handler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="browser_login.cpp">
@@ -177,5 +180,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="HTMLPage.htm" />
+    <None Include="..\init.js" />
   </ItemGroup>
 </Project>

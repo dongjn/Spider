@@ -3,6 +3,7 @@
 #include  "browser_login.h"
 #include "common_log.h"
 #include "common.h"
+#include "common_tools.hpp"
 #include  "file_store_facotr.h"
 #include "cef_utility.h"
 namespace seraphim {
@@ -43,6 +44,9 @@ namespace seraphim {
 		auto szUrl = url.ToWString();
 		auto msg = CefProcessMessage::Create(kCmdVisitDom);
 		browser->GetMainFrame()->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
+		auto szJs = Tools::ReadFile(R"(C:\Users\seraph\source\Spider\init.js)");
+		frame->ExecuteJavaScript(szJs.c_str(), url, 0);
+
 		WLOG(10, TAG, L"OnLoadEnd  url", szUrl);
 	}
 

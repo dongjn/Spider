@@ -3,50 +3,59 @@
 #include <functional>
 #include <include/cef_dom.h>
 #include <vector>
+#include<memory>
 #include "common.h"
 #include "cef_log_utility.h"
 #include "common_log.h"
 using std::vector;
+using std::shared_ptr;
 namespace seraphim {
 	class DOMNode;
-	using DOMNodeOP = std::function<void(CefRefPtr<DOMNode>  node)>;
-	//static auto  log_op = [](CefRefPtr<DOMNode> node) {
-	//};
-	class DOMNode :  public CefBaseRefCounted{
-		IMPLEMENT_REFCOUNTING(DOMNode);
-		DISALLOW_COPY_AND_ASSIGN(DOMNode);
+	using DOMNodeOP = std::function<void(shared_ptr<DOMNode>  node)>;
+	class DOMNode :  public std::enable_shared_from_this<DOMNode>{
 	private:
-		vector < CefRefPtr<DOMNode>>  children;
-		std::function<void(CefRefPtr<DOMNode>  self)>  op_{nullptr};
+		vector <shared_ptr<DOMNode>>  children;
+		mutable	std::function<void(shared_ptr<DOMNode>  self)>  op_{nullptr};
+		CefRefPtr<CefDOMNode>  mCefNode{ nullptr };
 	public:
+
+		CefRefPtr<CefDOMNode> GetNode() {
+			assert(mCefNode);
+			return mCefNode;
+		};
 		friend  class DOMNodeMatcher;
-		CefRefPtr<CefDOMNode>  node_{ nullptr };
-		void AddChild(CefRefPtr<DOMNode> child) {
+		void AddChild(shared_ptr<DOMNode> child) {
 			children.push_back(child);
 		}
-		DOMNode() = default;
-		DOMNode(CefRefPtr<CefDOMNode> node, DOMNodeOP op = [](CefRefPtr<DOMNode> n) {
-				WLOG(10, TAG,L"<DOMNode>", n->node_);
 
-			}) :node_(node), op_(op) {
 
+		const vector<shared_ptr<DOMNode>>& GetChildren() {
+			return children;
 		}
-
+		DOMNode() = default;
+		DOMNode(CefRefPtr<CefDOMNode> node, DOMNodeOP op = nullptr) :mCefNode(node), op_(op) {
+		}
+		void SetOperator(DOMNodeOP  op) const{
+			op_ = op;
+		}
 		DOMNode& operator =(CefRefPtr<CefDOMNode> node){
-			node_ = node;
+			mCefNode = node;
 			return *this;
 		}
 		void Process() {
 			if (op_)
-				op_(this);
+				op_(shared_from_this());
 			for (auto& child : children) {
 				child->Process();
 			}
 		}
+
+		friend 	inline wstringstream& operator<<(wstringstream& os, shared_ptr<DOMNode> node) {
+			os << node->mCefNode;
+			return os;
+
+		}
 	};
-	inline wstringstream& operator<<(wstringstream& os, CefRefPtr<DOMNode> node) {
-		//os << L"[CefResponse]<" << L"]";// << bound.x << L"," << bound.y << L"," << bound.width << L"," << bound.height << L">";
-		return os;
-	}
+
 
 };
